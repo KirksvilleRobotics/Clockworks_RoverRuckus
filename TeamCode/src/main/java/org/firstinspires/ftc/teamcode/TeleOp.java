@@ -28,40 +28,68 @@ public class TeleOp extends OpMode {
         rightDrive = hardwareMap.get(DcMotor.class, "rightDrive");
         winchLift = hardwareMap.get(DcMotor.class, "winchLift");
 
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
 
-        armClaw = hardwareMap.get(Servo.class, "armClaw");
-        armLift1 = hardwareMap.get(CRServo.class, "armLift1");
-        armLift2 = hardwareMap.get(Servo.class, "armLift2");
-        armLift3 = hardwareMap.get(Servo.class, "armLift3");
+        //armClaw = hardwareMap.get(Servo.class, "armClaw");
+        //armLift1 = hardwareMap.get(CRServo.class, "armLift1");
+        //armLift2 = hardwareMap.get(Servo.class, "armLift2");
+        //armLift3 = hardwareMap.get(Servo.class, "armLift3");
 
         lift1Pos = 0.0;
         lift2Pos = 0.0;
 
         telemetry.addData("Initalized","Initialization complete");
     }
-
+    private int i = 0;
     @Override
     public void loop() {
+
+        telemetry.addData("WARNING", "ROBOT WILL SELF DESTRUCT IN " + (10 - i) + "...");
+        i++;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(i == 11) {
+            for(int j = 0; j < 1000; j++) {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         leftDrive.setPower(gamepad1.left_stick_y);
         rightDrive.setPower(gamepad1.right_stick_y);
 
-        if(gamepad1.a) {
+        if(gamepad1.left_trigger == 1.0f) {
             winchLift.setPower(0.5);
             try {
-                Thread.sleep(500);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 telemetry.addData("Error", e.toString());
             }
+            winchLift.setPower(0.0);
         }
-        if(gamepad1.x) {
+        if(gamepad1.right_trigger == 1.0f) {
+            winchLift.setPower(-0.5);
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                telemetry.addData("Error", e.toString());
+            }
+            winchLift.setPower(0.0);
+        }
+        /*if(gamepad1.x) {
             armClaw.setPosition(0.5);
         }
         else if(gamepad1.y) {
             armClaw.setPosition(0.0);
         }
-        
+
         if(gamepad1.dpad_up) {
             armLift1.setPower(1.0);
         }
@@ -78,6 +106,6 @@ public class TeleOp extends OpMode {
             lift2Pos -= 0.1;
             armLift2.setPosition(lift2Pos);
             armLift3.setPosition(lift2Pos);
-        }
+        }*/
     }
 }
