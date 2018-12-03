@@ -29,5 +29,17 @@ public class Autonomous extends LinearOpMode {
         leftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         rightDrive.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        telemetry.addData("Initialized", "Initialization Complete.");
+        
+        waitForStart();
+
+        leftDrive.setPower(1.0);
+        rightDrive.setPower(1.0);
+
+        sleep(5000);
+
+        leftDrive.setPower(0.0);
+        rightDrive.setPower(0.0);
+
     }
 }
